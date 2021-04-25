@@ -1,3 +1,4 @@
+import { useContext } from "react"
 import { GetStaticProps } from "next"
 import Image from 'next/image'
 import Link from 'next/link'
@@ -5,6 +6,7 @@ import { api } from "../services/api"
 import { format, parseISO } from 'date-fns'
 import { ptBR } from "date-fns/locale"
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString"
+import { PlayerContext } from "../contexts/PlayerContext"
 
 import styles from './home.module.scss'
 
@@ -25,6 +27,7 @@ interface IHomeProps {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: IHomeProps) {
+  const { play } = useContext(PlayerContext);
 
   return (
     <div className={styles.homepage}>
@@ -52,7 +55,7 @@ export default function Home({ latestEpisodes, allEpisodes }: IHomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button">
+                <button type="button" onClick={() => play(episode)}>
                   <img src="/play-green.svg" alt="Tocar episodio" />
                 </button>
               </li>
