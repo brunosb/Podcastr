@@ -6,6 +6,7 @@ import parseISO from 'date-fns/parseISO';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { api } from '../../services/api';
 import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
+import { usePlayer } from '../../contexts/PlayerContext';
 
 import styles from './episode.module.scss';
 
@@ -26,6 +27,8 @@ interface IEpisodeProps {
 }
 
 export default function Episode({ episode }: IEpisodeProps) {  
+  const { play } = usePlayer();
+
   return (
     <div className={styles.episode}>
       <div className={styles.thumbnailContainer}>
@@ -40,7 +43,7 @@ export default function Episode({ episode }: IEpisodeProps) {
           src={episode.thumbnail} 
           objectFit="cover"
         />
-        <button type="button">
+        <button type="button" onClick={() => play(episode)}>
           <img src="/play.svg" alt="Tocar episódio"/>
         </button>
       </div>
